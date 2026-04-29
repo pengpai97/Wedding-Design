@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__ide__executeCode",
+      "Bash(python update_seating.py)",
+      "Bash(set PYTHONIOENCODING=utf-8)",
+      "Bash(set PYTHONUTF8=1)",
+      "Bash(start *)",
+      "Bash(python -m http.server 8080)",
+      "Bash(ipconfig)",
+      "Bash(Select-String \"IPv4\")",
+      "Bash(Select-Object -First 1)",
+      "Bash(powershell *)",
+      "Bash(npm list *)",
+      "Bash(npm i *)",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git pull *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git config *)"
+    ]
+  }
+}

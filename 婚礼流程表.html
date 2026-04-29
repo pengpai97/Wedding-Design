@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>婚礼流程表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            padding: 12px 8px;
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            text-align: center;
+            padding: 18px 15px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 6px;
+            letter-spacing: 4px;
+        }
+        .header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .section {
+            padding: 14px 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section-title {
+            font-size: 17px;
+            color: #c44569;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ff6b9d;
+            display: flex;
+            align-items: center;
+        }
+        .section-title::before {
+            content: "♥";
+            margin-right: 8px;
+            color: #ff6b9d;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -12px;
+            padding: 0 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+            min-width: 580px;
+        }
+        th {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: normal;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #f5f5f5;
+            vertical-align: top;
+            font-size: 14px;
+        }
+        tr:nth-child(even) {
+            background-color: #fffafb;
+        }
+        .time-col {
+            min-width: 85px;
+            color: #c44569;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .content-col {
+            background-color: #fafafa;
+        }
+        .note {
+            color: #888;
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+        .highlight {
+            color: #c44569;
+            font-weight: bold;
+        }
+        .checkbox {
+            margin-right: 8px;
+            transform: scale(1.2);
+            -webkit-transform: scale(1.2);
+        }
+        .info-box {
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe8ef 100%);
+            padding: 14px;
+            border-radius: 10px;
+            margin: 8px 0;
+            border-left: 4px solid #ff6b9d;
+        }
+        .family-concept {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 12px 14px;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+            margin: 8px 0;
+        }
+        .family-concept strong {
+            color: #2e7d32;
+        }
+        ul {
+            list-style: none;
+            padding-left: 4px;
+        }
+        li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 14px;
+        }
+        li::before {
+            content: "•";
+            color: #ff6b9d;
+            position: absolute;
+            left: 4px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .footer {
+            text-align: center;
+            padding: 16px;
+            color: #888;
+            font-size: 13px;
+            background: linear-gradient(135deg, #fdfbfb 0%, #f5f5f5 100%);
+        }
+        strong {
+            font-size: 15px;
+        }
+        .mobile-card {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .mobile-card .time {
+            color: #c44569;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        .mobile-card .title {
+            font-weight: bold;
+            margin-bottom: 6px;
+            font-size: 15px;
+        }
+        .mobile-card .content {
+            color: #333;
+            line-height: 1.6;
+        }
+        .mobile-card .remark {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #eee;
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            .section {
+                padding: 12px 10px;
+            }
+            .section-title {
+                font-size: 16px;
+            }
+            td {
+                font-size: 13px;
+                padding: 8px 6px;
+            }
+            th {
+                font-size: 13px;
+                padding: 8px 6px;
+            }
+            li {
+                font-size: 13px;
+                padding: 4px 0 4px 18px;
+            }
+            .info-box, .family-concept {
+                padding: 12px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            .header h1 {
+                font-size: 32px;
+                letter-spacing: 6px;
+            }
+            .section {
+                padding: 15px 20px;
+            }
+            .table-wrapper {
+                margin: 0;
+                padding: 0;
+            }
+            tr:hover {
+                background-color: #fff5f8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>婚 礼 流 程 表</h1>
+            <p>Wedding Ceremony Timeline</p>
+        </div>
+
+        <div class="section">
+            <div class="section-title">婚礼基本信息</div>
+            <div class="info-box">
+                <div class="table-wrapper">
+                    <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <td class="time-col">日期</td>
+                        <td><strong>5月3日 中午</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">地点</td>
+                        <td><strong>唐韵大酒店</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">总时长</td>
+                        <td>约30分钟（开场仪式）</td>
+                    </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">【仪式前准备】</div>
+            <div class="table-wrapper">
+                <table>
+                <thead>
+                    <tr>
+                        <th width="12%">时间</th>
+                        <th width="20%">环节</th>
+                        <th width="48%">内容</th>
+                        <th width="20%">负责人/备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">仪式前10分钟</td>
+                        <td>家人集合排队</td>
+                        <td class="content-col">全家在T台一侧排好队，左右对称站位<br>长辈在前，晚辈在后<br>人员包括：姥姥、姥爷、爷爷、舅舅、妈妈、<br>姑妈、九姑妈、小姨、叔叔、舅妈、<br>哥哥、姐姐、姐夫、大弟弟、二弟弟、<br>大外甥女、小外甥女</td>
+                        <td>主持人 + 总协调</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">仪式前5分钟</td>
+                        <td>音乐准备</td>
+                        <td class="content-col">播放暖场音乐，准备入场音乐</td>
+                        <td>音控师</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">仪式前1分钟</td>
+                        <td>准备就绪</td>
+                        <td class="content-col">全员就位，主持人候场</td>
+                        <td>主持人</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">【第一部分：入场仪式】</div>
+            <div class="table-wrapper">
+                <table>
+                <thead>
+                    <tr>
+                        <th width="12%">时间</th>
+                        <th width="20%">环节</th>
+                        <th width="48%">内容</th>
+                        <th width="20%">负责人/备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">0:00-0:30</td>
+                        <td>主持人上场</td>
+                        <td class="content-col">
+                            音乐起<br>
+                            主持人上场，致开场词：<br>
+                            "尊敬的各位长辈，各位家人，大家好！今天是个喜庆的日子，我们欢聚一堂，共同迎来我们家的新人加入。我们这个大家庭，一直秉持着<span class="highlight">单纯、和谐、快乐</span>的家风，今天我们又将迎来新的成员，让我们用最热烈的掌声，欢迎新人入场！"
+                        </td>
+                        <td>主持人<br><span class="note">核心要点：<br>强调"单纯、和谐、快乐"的家庭理念</span></td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">0:30-1:30</td>
+                        <td>新人入场</td>
+                        <td class="content-col">新人手挽手从T台入场<br>缓步走向家人队伍</td>
+                        <td>新人</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">1:30-2:00</td>
+                        <td>加入队伍</td>
+                        <td class="content-col">新人走到家人队伍末端，正式加入大家庭<br>全场掌声</td>
+                        <td>主持人引导</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">【第二部分：长辈祝福】</div>
+            <div class="table-wrapper">
+                <table>
+                <thead>
+                    <tr>
+                        <th width="12%">时间</th>
+                        <th width="20%">环节</th>
+                        <th width="48%">内容</th>
+                        <th width="20%">负责人/备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">2:00-4:30</td>
+                        <td>长辈致辞</td>
+                        <td class="content-col">
+                            按年龄顺序依次发言：<br><br>
+                            <strong>爷爷</strong>：<br>
+                            话筒递上，送上祝福<br><br>
+                            <strong>姥爷</strong>：<br>
+                            话筒递上，送上祝福<br><br>
+                            <strong>姥姥</strong>：<br>
+                            话筒递上，送上祝福<br><br>
+                            <span class="note">（如长辈不便多说，统一说"新婚快乐，早生贵子"即可）</span>
+                        </td>
+                        <td>主持人递话筒<br>每讲完一位主持人带领鼓掌<br><br><span class="highlight">注意：</span><br>照顾长辈身体，<br>不宜站立过久</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">4:30-5:30</td>
+                        <td>家人回座</td>
+                        <td class="content-col">主持人引导："感谢各位长辈的祝福，请家人们回到座位就坐"</td>
+                        <td>主持人</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">【第三部分：亲友致辞】</div>
+            <div class="table-wrapper">
+                <table>
+                <thead>
+                    <tr>
+                        <th width="12%">时间</th>
+                        <th width="20%">环节</th>
+                        <th width="48%">内容</th>
+                        <th width="20%">负责人/备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">5:30-7:30</td>
+                        <td>同学代表致辞</td>
+                        <td class="content-col">主持人串词："下面有请尤清伦同学作为外地同学代表发言！尤清伦是新郎彭嘉恒的大学舍友，在老彭的整个大学生涯直到现在都帮助很大。"</td>
+                        <td>主持人引导</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">7:30-10:00</td>
+                        <td>任锋、马健老师<br>送对联</td>
+                        <td class="content-col">
+                            主持人串词："接下来，有请任锋、马健老师为新人送上祝福！任锋、马健两位老师，是新郎彭嘉恒的高中老师，也是苗老师的好朋友，今天他们作为长辈和老师，来给新人送上他们的祝福！"<br><br>
+                            流程：<br>
+                            1. 两人上台展示对联<br>
+                            2. 念出对联内容<br>
+                            3. 讲几句祝福的话<br>
+                            4. 新人鞠躬感谢，接过对联
+                        </td>
+                        <td>主持人<br>准备好对联道具</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">【第四部分：母亲致辞 & 开席】</div>
+            <div class="table-wrapper">
+                <table>
+                <thead>
+                    <tr>
+                        <th width="12%">时间</th>
+                        <th width="20%">环节</th>
+                        <th width="48%">内容</th>
+                        <th width="20%">负责人/备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">10:00-14:00</td>
+                        <td>妈妈致辞</td>
+                        <td class="content-col">主持人串词："接下来，让我们用最热烈的掌声，有请新人的母亲为大家讲几句话！"<br><br><span class="note">（妈妈讲话内容较长，预留充分时间）</span></td>
+                        <td>主持人<br>讲话过程中适当提示鼓掌</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">14:00-14:30</td>
+                        <td>主持人总结</td>
+                        <td class="content-col">主持人串词："感谢妈妈的肺腑之言！各位长辈、各位家人，今天的仪式到此告一段落。让我们再次把祝福的掌声送给新人，祝愿他们新婚快乐、百年好合、早生贵子！"</td>
+                        <td>主持人</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">14:30</td>
+                        <td>宣布开席</td>
+                        <td class="content-col">主持人："现在，我宣布——喜宴正式开始！请大家开怀畅饮，共度美好时光！"</td>
+                        <td>主持人</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">【第五部分：席间祝福节目安排】</div>
+            <div class="table-wrapper">
+                <table>
+                <thead>
+                    <tr>
+                        <th width="12%">时间</th>
+                        <th width="20%">环节</th>
+                        <th width="48%">内容</th>
+                        <th width="20%">负责人/备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-col">开席后15分钟</td>
+                        <td>敬酒环节</td>
+                        <td class="content-col">新人及父母开始逐桌敬酒</td>
+                        <td>总协调安排顺序</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">席间</td>
+                        <td>祝福节目1</td>
+                        <td class="content-col">主持人陈果通暖场唱歌</td>
+                        <td>陈果通</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">席间</td>
+                        <td>祝福节目2</td>
+                        <td class="content-col">彭嘉恒的外甥女Elena Stella送出晚辈的祝福</td>
+                        <td>主持人引导</td>
+                    </tr>
+                    <tr>
+                        <td class="time-col">席间</td>
+                        <td>抽奖环节</td>
+                        <td class="content-col">
+                            送出爷爷的画作<br><br>
+                            流程：<br>
+                            1. 主持人介绍抽奖奖品：爷爷亲笔画作<br>
+                            2. 现场抽取1-2名幸运嘉宾<br>
+                            3. 新郎新娘颁奖并合影留念
+                        </td>
+                        <td>主持人 + 新人</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">【重要物品清单】</div>
+            <div class="info-box">
+                <ul>
+                    <li><input type="checkbox" class="checkbox"> 话筒2-3支（确保电池充足）</li>
+                    <li><input type="checkbox" class="checkbox"> 对联道具</li>
+                    <li><input type="checkbox" class="checkbox"> 胸花</li>
+                    <li><input type="checkbox" class="checkbox"> 音乐U盘（入场音乐及其他背景音乐）</li>
+                    <li><input type="checkbox" class="checkbox"> 敬酒用具</li>
+                    <li><input type="checkbox" class="checkbox"> 爷爷画作奖品</li>
+                    <li><input type="checkbox" class="checkbox"> 抽奖箱/抽奖券</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">【人员分工】</div>
+            <div class="table-wrapper">
+                <table>
+                <thead>
+                    <tr>
+                        <th width="30%">职务</th>
+                        <th width="30%">姓名</th>
+                        <th width="40%">职责</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>总协调</strong></td>
+                        <td>待安排</td>
+                        <td>负责整体流程把控</td>
+                    </tr>
+                    <tr>
+                        <td><strong>主持人</strong></td>
+                        <td>待安排</td>
+                        <td>负责串词和现场把控</td>
+                    </tr>
+                    <tr>
+                        <td><strong>音控师</strong></td>
+                        <td>待安排</td>
+                        <td>负责音乐播放</td>
+                    </tr>
+                    <tr>
+                        <td><strong>礼仪/递话筒</strong></td>
+                        <td>待安排</td>
+                        <td>负责传递话筒、协助长辈</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">【主持人备忘】</div>
+            <div class="family-concept">
+                <ul>
+                    <li>始终强调<strong>"单纯、和谐、快乐"</strong>的家庭理念</li>
+                    <li>整个过程保持轻松、快乐、幽默的氛围</li>
+                    <li>照顾长辈身体，不宜让长辈站立过久</li>
+                    <li>适时引导鼓掌，营造热烈氛围</li>
+                    <li>灵活把控时间，根据现场情况调整节奏</li>
+                    <li>妈妈讲话较长，中间可适当插入鼓掌提示</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>♥ 祝新人新婚快乐，百年好合 ♥</p>
+        </div>
+    </div>
+</body>
+</html>

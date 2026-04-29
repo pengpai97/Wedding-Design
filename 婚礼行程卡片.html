@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>婚礼行程邀请</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            width: 600px;
+            background: linear-gradient(180deg, #fff5f5 0%, #ffffff 50%, #fffaf0 100%);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(199, 74, 74, 0.15),
+                        0 8px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #c94c4c, #e8a87c, #c94c4c);
+        }
+
+        .header {
+            text-align: center;
+            padding: 25px 30px 18px;
+            position: relative;
+        }
+
+        .hearts {
+            font-size: 28px;
+            color: #c94c4c;
+            margin-bottom: 10px;
+            letter-spacing: 8px;
+        }
+
+        .title-main {
+            font-size: 24px;
+            font-weight: 700;
+            color: #8b0000;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+        }
+
+        .title-sub {
+            font-size: 16px;
+            color: #a0522d;
+            letter-spacing: 2px;
+        }
+
+        .divider {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e8a87c, transparent);
+            margin: 0 auto;
+        }
+
+        .schedule {
+            padding: 15px 25px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 4px 15px rgba(199, 74, 74, 0.08);
+            border-left: 4px solid #c94c4c;
+            transition: transform 0.3s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .day-card.secondary {
+            border-left-color: #e8a87c;
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .day-icon {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        .day-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .day-date {
+            font-size: 14px;
+            color: #a0522d;
+            margin-left: auto;
+            font-weight: 500;
+        }
+
+        .detail {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .detail:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-icon {
+            width: 24px;
+            margin-right: 8px;
+            color: #c94c4c;
+            flex-shrink: 0;
+        }
+
+        .detail-text {
+            flex: 1;
+        }
+
+        .highlight {
+            color: #8b0000;
+            font-weight: 600;
+        }
+
+        .detail-text strong {
+            color: #c94c4c;
+            font-weight: 700;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px 30px 22px;
+            background: linear-gradient(180deg, transparent, rgba(201, 76, 76, 0.05));
+            grid-column: 1 / -1;
+        }
+
+        .footer-hearts {
+            font-size: 20px;
+            color: #e8a87c;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+        }
+
+        .footer-text {
+            font-size: 15px;
+            color: #a0522d;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+
+        .couple-names {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8b0000;
+            margin-top: 8px;
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="hearts">💕 💒 💕</div>
+            <div class="title-main">婚礼淄博行程</div>
+            <div class="title-sub">诚邀您见证我们的幸福时刻</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="schedule">
+            <div class="day-card secondary">
+                <div class="day-header">
+                    <span class="day-icon">🏨</span>
+                    <span class="day-title">5月1日 · 入住酒店</span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">📍</span>
+                    <span class="detail-text"><strong>张店区蒂柏酒店</strong></span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">✨</span>
+                    <span class="detail-text">请各位亲友提前入住休息，期待明日相聚！</span>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header">
+                    <span class="day-icon">💒</span>
+                    <span class="day-title">5月2日 · 婚宴正日</span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">🕚</span>
+                    <span class="detail-text"><span class="highlight">11:00</span> 婚宴开始</span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">📍</span>
+                    <span class="detail-text"><strong>张店区唐庄中润大道店 5F</strong></span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">🎉</span>
+                    <span class="detail-text">恭候各位光临，共襄喜宴！</span>
+                </div>
+            </div>
+
+            <div class="day-card secondary">
+                <div class="day-header">
+                    <span class="day-icon">🍖</span>
+                    <span class="day-title">5月2日 · 烧烤聚餐</span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">🕕</span>
+                    <span class="detail-text"><span class="highlight">18:00</span> 开始</span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">📍</span>
+                    <span class="detail-text"><strong>全羊福源烧烤</strong></span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">🥂</span>
+                    <span class="detail-text">婚宴结束后移步继续嗨！</span>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header">
+                    <span class="day-icon">🙏</span>
+                    <span class="day-title">5月3日 · 答谢宴</span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">🕚</span>
+                    <span class="detail-text"><span class="highlight">11:00</span> 答谢宴开始</span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">📍</span>
+                    <span class="detail-text"><strong>张店区唐韵大酒店</strong></span>
+                </div>
+                <div class="detail">
+                    <span class="detail-icon">💐</span>
+                    <span class="detail-text">诚邀亲友，感谢一路相伴！</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-hearts">💞 💝 💞</div>
+            <div class="footer-text">期待与您共度这美好时刻</div>
+            <div class="couple-names">彭嘉恒 & 薛博文 敬邀</div>
+        </div>
+    </div>
+</body>
+</html>

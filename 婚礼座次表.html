@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>婚礼宴席座次表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe4e6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #be123c;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(190, 18, 60, 0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #9f1239;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .stage {
+            background: linear-gradient(135deg, #be123c 0%, #9f1239 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 35px;
+            box-shadow: 0 6px 18px rgba(190, 18, 60, 0.3);
+            position: relative;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stage::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: #fda4af;
+            border-radius: 2px;
+        }
+
+        .stage-icon {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+
+        .seating-area {
+            display: flex;
+            justify-content: center;
+            gap: 65px;
+            flex-wrap: wrap;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .table {
+            width: 130px;
+            height: 130px;
+            background: linear-gradient(145deg, #ffffff 0%, #fef2f2 100%);
+            border: 3px solid #fb7185;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(251, 113, 133, 0.2);
+            position: relative;
+        }
+
+        .table.has-data {
+            border-color: #be123c;
+            background: linear-gradient(145deg, #fff1f2 0%, #ffe4e6 100%);
+        }
+
+        .table:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(251, 113, 133, 0.4);
+            border-color: #be123c;
+        }
+
+        .table-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #be123c;
+            margin-bottom: 5px;
+        }
+
+        .table-source {
+            font-size: 0.8em;
+            color: #db2777;
+            font-weight: 500;
+        }
+
+        .table-count {
+            font-size: 0.75em;
+            color: #f43f5e;
+            margin-top: 3px;
+            background: #fecdd3;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .table.empty .table-number {
+            color: #9ca3af;
+        }
+
+        .table.empty {
+            border-color: #d1d5db;
+            background: linear-gradient(145deg, #f9fafb 0%, #f3f4f6 100%);
+        }
+
+        .table.empty .table-count {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #fecdd3;
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            color: #be123c;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            background: #fecdd3;
+            color: #be123c;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #be123c;
+            color: white;
+        }
+
+        .modal-summary {
+            background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-summary p {
+            color: #9f1239;
+            margin: 5px 0;
+        }
+
+        .guest-list {
+            list-style: none;
+        }
+
+        .guest-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background 0.2s;
+        }
+
+        .guest-item:hover {
+            background: #f9fafb;
+        }
+
+        .guest-item:last-child {
+            border-bottom: none;
+        }
+
+        .guest-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .guest-name {
+            font-weight: bold;
+            color: #1f2937;
+            font-size: 1.05em;
+        }
+
+        .guest-source {
+            font-size: 0.85em;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        .guest-count {
+            background: #be123c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .empty-notice {
+            text-align: center;
+            color: #9ca3af;
+            padding: 40px 20px;
+        }
+
+        .empty-notice-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .legend {
+            margin-top: 50px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend h3 {
+            color: #be123c;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .legend-items {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.has-data {
+            border: 2px solid #be123c;
+            background: linear-gradient(145deg, #fff1f2 0%, #ffe4e6 100%);
+        }
+
+        .legend-dot.empty {
+            border: 2px solid #d1d5db;
+            background: linear-gradient(145deg, #f9fafb 0%, #f3f4f6 100%);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #9f1239;
+            font-size: 0.9em;
+        }
+
+        .search-box {
+            max-width: 300px;
+            margin: 0 auto 25px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #fda4af;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            background: white;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #be123c;
+        }
+
+        .search-result {
+            background: #fff1f2;
+            border: 1px solid #fda4af;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .search-result.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 10px;
+            border-bottom: 1px solid #fecdd3;
+            cursor: pointer;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background: #ffe4e6;
+        }
+
+        .highlight {
+            background: #fef08a;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .seating-area {
+                gap: 15px;
+            }
+
+            .column {
+                gap: 20px;
+            }
+
+            .table {
+                width: 85px;
+                height: 85px;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .table:active {
+                transform: scale(0.95);
+            }
+
+            .table-number {
+                font-size: 1.1em;
+            }
+
+            .table-source {
+                font-size: 0.7em;
+            }
+
+            .table-count {
+                font-size: 0.65em;
+                padding: 1px 6px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .subtitle {
+                font-size: 0.95em;
+                margin-bottom: 20px;
+            }
+
+            .stage {
+                padding: 15px;
+                font-size: 1.1em;
+                margin-bottom: 25px;
+            }
+
+            .stage-icon {
+                font-size: 1.2em;
+            }
+
+            .modal {
+                padding: 20px;
+                width: 95%;
+                max-height: 85vh;
+            }
+
+            .modal-title {
+                font-size: 1.2em;
+            }
+
+            .guest-item {
+                padding: 10px 12px;
+            }
+
+            .guest-name {
+                font-size: 1em;
+            }
+
+            .guest-count {
+                padding: 4px 10px;
+                font-size: 0.85em;
+            }
+
+            .legend {
+                margin-top: 30px;
+                padding: 15px;
+            }
+
+            .legend-items {
+                gap: 25px;
+            }
+
+            .footer {
+                margin-top: 25px;
+                font-size: 0.85em;
+            }
+
+            .search-box input {
+                padding: 10px 15px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .seating-area {
+                gap: 10px;
+            }
+
+            .table {
+                width: 75px;
+                height: 75px;
+            }
+
+            .table-number {
+                font-size: 1em;
+            }
+
+            .table-source {
+                font-size: 0.6em;
+            }
+
+            .table-count {
+                font-size: 0.55em;
+            }
+
+            h1 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💒 婚礼宴席座次表</h1>
+        <p class="subtitle">Wedding Seating Plan</p>
+
+        <div class="stage">
+            <div class="stage-icon">💕</div>
+            <div>舞台 / STAGE</div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 搜索宾客姓名查找座位..." oninput="searchGuest()">
+            <div class="search-result" id="searchResult"></div>
+        </div>
+
+        <div class="seating-area" id="seatingArea">
+            <div class="column">
+                <div class="table" data-table="1" onclick="showTableDetail(1)">
+                    <div class="table-number">1</div>
+                    <div class="table-source">男方亲友</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="2" onclick="showTableDetail(2)">
+                    <div class="table-number">2</div>
+                    <div class="table-source">新人同学</div>
+                    <div class="table-count">8人</div>
+                </div>
+                <div class="table" data-table="3" onclick="showTableDetail(3)">
+                    <div class="table-number">3</div>
+                    <div class="table-source">新人同学</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="4" onclick="showTableDetail(4)">
+                    <div class="table-number">4</div>
+                    <div class="table-source">新人同学</div>
+                    <div class="table-count">11人</div>
+                </div>
+                <div class="table" data-table="5" onclick="showTableDetail(5)">
+                    <div class="table-number">5</div>
+                    <div class="table-source">新人同学</div>
+                    <div class="table-count">10人</div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="table" data-table="6" onclick="showTableDetail(6)">
+                    <div class="table-number">6</div>
+                    <div class="table-source">男方亲友</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="7" onclick="showTableDetail(7)">
+                    <div class="table-number">7</div>
+                    <div class="table-source">新人同学</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="8" onclick="showTableDetail(8)">
+                    <div class="table-number">8</div>
+                    <div class="table-source">新人同学</div>
+                    <div class="table-count">9人</div>
+                </div>
+                <div class="table" data-table="9" onclick="showTableDetail(9)">
+                    <div class="table-number">9</div>
+                    <div class="table-source">新人同学</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="10" onclick="showTableDetail(10)">
+                    <div class="table-number">10</div>
+                    <div class="table-source">新人同学</div>
+                    <div class="table-count">8人</div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="table" data-table="11" onclick="showTableDetail(11)">
+                    <div class="table-number">11</div>
+                    <div class="table-source">峨庄亲友</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="12" onclick="showTableDetail(12)">
+                    <div class="table-number">12</div>
+                    <div class="table-source">峨庄亲友</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="13" onclick="showTableDetail(13)">
+                    <div class="table-number">13</div>
+                    <div class="table-source">临淄亲友</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="14" onclick="showTableDetail(14)">
+                    <div class="table-number">14</div>
+                    <div class="table-source">事务所</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="15" onclick="showTableDetail(15)">
+                    <div class="table-number">15</div>
+                    <div class="table-source">女方泳友</div>
+                    <div class="table-count">10人</div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="table" data-table="16" onclick="showTableDetail(16)">
+                    <div class="table-number">16</div>
+                    <div class="table-source">峨庄亲友</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="17" onclick="showTableDetail(17)">
+                    <div class="table-number">17</div>
+                    <div class="table-source">临淄亲友</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="18" onclick="showTableDetail(18)">
+                    <div class="table-number">18</div>
+                    <div class="table-source">临淄亲友</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="19" onclick="showTableDetail(19)">
+                    <div class="table-number">19</div>
+                    <div class="table-source">女方同学</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="20" onclick="showTableDetail(20)">
+                    <div class="table-number">20</div>
+                    <div class="table-source">机动</div>
+                    <div class="table-count">10人</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="legend">
+            <h3>📋 图例说明</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-dot has-data"></div>
+                    <span>已安排宾客</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot empty"></div>
+                    <span>空桌 / 备用桌</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>👆 点击任意桌号查看详细宾客名单</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">第 1 桌</div>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div id="modalContent">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Excel数据
+        const tableData =         {
+                    "2": {
+                                "guests": [
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "马恺悦",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "王足毅",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "廖恒",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "许艺",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "任绪甫",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "翁浩源",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "胡海泉",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 8,
+                                "total_groups": 7
+                    },
+                    "3": {
+                                "guests": [
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "刘潇",
+                                                        "count": 3
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "何首呈",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "曹经纶",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "宋瑞霖",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "李彧楚",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "仲宇飞",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 6
+                    },
+                    "4": {
+                                "guests": [
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "詹吟霄",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "张智源",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "范家钰",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "马皓月",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "张婳",
+                                                        "count": 4
+                                            }
+                                ],
+                                "total_people": 11,
+                                "total_groups": 5
+                    },
+                    "5": {
+                                "guests": [
+                                            {
+                                                        "source": "本科",
+                                                        "name": "张彦崧",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "王山",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "邢小龙",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "李昱函",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "刘孟嘉",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "梁宇平",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "王傧翰",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 7
+                    },
+                    "7": {
+                                "guests": [
+                                            {
+                                                        "source": "本科",
+                                                        "name": "尤清伦",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "孙益权",
+                                                        "count": 3
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "员乐",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "杨永顺",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "陈果通",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "赵峰",
+                                                        "count": 2
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 6
+                    },
+                    "8": {
+                                "guests": [
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "任恺月",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "黄兆南",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "吕洪志",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "张鑫",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "王琳",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "贾敏",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "余诗祺",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "张金迪",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "王子卉",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 9,
+                                "total_groups": 9
+                    },
+                    "9": {
+                                "guests": [
+                                            {
+                                                        "source": "高一",
+                                                        "name": "王凌飞",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "侯泽阳",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "张诗奇",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "韩帅",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "赵钰",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "马梓程",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "鲍金笛",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 7
+                    },
+                    "10": {
+                                "guests": [
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "孔德朋",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "初中",
+                                                        "name": "李寒雨",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "初中",
+                                                        "name": "李功豪",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "初中",
+                                                        "name": "曹畅",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "初中",
+                                                        "name": "朱桐村",
+                                                        "count": 2
+                                            }
+                                ],
+                                "total_people": 8,
+                                "total_groups": 5
+                    }
+        };
+
+        function initTables() {
+            document.querySelectorAll('.table').forEach(table => {
+                const tableNum = parseInt(table.dataset.table);
+                if (tableData[tableNum]) {
+                    table.classList.add('has-data');
+                } else {
+                    table.classList.add('empty');
+                }
+            });
+        }
+
+        function showTableDetail(tableNum) {
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+
+            modalTitle.textContent = `第 ${tableNum} 桌`;
+
+            const data = tableData[tableNum];
+
+            if (data) {
+                const sources = [...new Set(data.guests.map(g => g.source))].join(' / ');
+
+                modalContent.innerHTML = `
+                    <div class="modal-summary">
+                        <p><strong>宾客来源：</strong>${sources}</p>
+                        <p><strong>宾客组数：</strong>${data.total_groups} 组</p>
+                        <p><strong>总人数：</strong>${data.total_people} 人</p>
+                    </div>
+                    <ul class="guest-list">
+                        ${data.guests.map(guest => `
+                            <li class="guest-item">
+                                <div class="guest-info">
+                                    <span class="guest-name">${guest.name}</span>
+                                    <span class="guest-source">${guest.source}</span>
+                                </div>
+                                <span class="guest-count">${guest.count} 人</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            } else {
+                modalContent.innerHTML = `
+                    <div class="modal-summary">
+                        <p><strong>宾客来源：</strong>待安排</p>
+                        <p><strong>宾客组数：</strong>待安排</p>
+                        <p><strong>总人数：</strong>10 人</p>
+                    </div>
+                    <div class="empty-notice">
+                        <p>此桌宾客名单待录入</p>
+                    </div>
+                `;
+            }
+
+            modalOverlay.classList.add('active');
+        }
+
+        function closeModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        function searchGuest() {
+            const input = document.getElementById('searchInput').value.trim();
+            const resultDiv = document.getElementById('searchResult');
+
+            if (input.length === 0) {
+                resultDiv.classList.remove('active');
+                return;
+            }
+
+            const results = [];
+
+            for (const tableNum in tableData) {
+                const table = tableData[tableNum];
+                table.guests.forEach(guest => {
+                    if (guest.name.includes(input)) {
+                        results.push({
+                            tableNum,
+                            name: guest.name,
+                            source: guest.source,
+                            count: guest.count
+                        });
+                    }
+                });
+            }
+
+            if (results.length > 0) {
+                resultDiv.innerHTML = results.map(r => `
+                    <div class="search-result-item" onclick="showTableDetail(${r.tableNum})">
+                        <strong>${r.name}</strong> - 第 ${r.tableNum} 桌 (${r.source})
+                    </div>
+                `).join('');
+                resultDiv.classList.add('active');
+            } else {
+                resultDiv.innerHTML = '<div style="text-align: center; color: #9ca3af;">未找到匹配的宾客</div>';
+                resultDiv.classList.add('active');
+            }
+        }
+
+        initTables();
+    </script>
+</body>
+</html>

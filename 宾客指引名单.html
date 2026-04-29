@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>婚礼宾客指引名单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            background: #fff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #be123c;
+        }
+
+        .header h1 {
+            color: #be123c;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .print-btn {
+            background: #be123c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .print-btn:hover {
+            background: #9f1239;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .table-section {
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #be123c 0%, #db2777 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .table-category {
+            font-size: 0.8em;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+
+        .guest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .guest-card {
+            background: #fff5f5;
+            border: 1px solid #fecdd3;
+            border-radius: 6px;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .guest-name {
+            font-weight: bold;
+            color: #1f2937;
+            font-size: 1.05em;
+        }
+
+        .guest-count {
+            background: #be123c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            min-width: 35px;
+            text-align: center;
+        }
+
+        .empty-notice {
+            color: #9ca3af;
+            font-style: italic;
+            padding: 10px 20px;
+        }
+
+        .summary {
+            background: #fef2f2;
+            border: 2px solid #fecdd3;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #be123c;
+        }
+
+        .summary-label {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        @media print {
+            .print-btn {
+                display: none;
+            }
+
+            body {
+                padding: 0;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .table-header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .guest-card {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .guest-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💒 婚礼宾客指引名单</h1>
+            <p>请找到您的姓名，查看对应的桌号就座</p>
+            <button class="print-btn" onclick="window.print()">🖨️ 打印名单</button>
+        </div>
+
+        <div class="summary">
+            <div class="summary-item">
+                <div class="summary-number" id="totalTables">0</div>
+                <div class="summary-label">已安排桌数</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number" id="totalGuests">0</div>
+                <div class="summary-label">宾客组数</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number" id="totalPeople">0</div>
+                <div class="summary-label">总人数</div>
+            </div>
+        </div>
+
+        <div id="guestList">
+            <!-- 动态生成内容 -->
+        </div>
+
+        <div class="footer">
+            <p>🎊 祝您用餐愉快 🎊</p>
+        </div>
+    </div>
+
+    <script>
+        // 桌号对应的显示类别
+        const TABLE_CATEGORIES = {
+        "1": "男方亲友",
+        "2": "新人同学",
+        "3": "新人同学",
+        "4": "新人同学",
+        "5": "新人同学",
+        "6": "男方亲友",
+        "7": "新人同学",
+        "8": "新人同学",
+        "9": "新人同学",
+        "10": "新人同学",
+        "11": "峨庄亲友",
+        "12": "峨庄亲友",
+        "13": "临淄亲友",
+        "14": "事务所",
+        "15": "女方泳友",
+        "16": "峨庄亲友",
+        "17": "临淄亲友",
+        "18": "临淄亲友",
+        "19": "女方同学",
+        "20": "机动"
+};
+
+        // Excel数据
+        const tableData =         {
+                    "2": {
+                                "guests": [
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "马恺悦",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "王足毅",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "廖恒",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "许艺",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "任绪甫",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "翁浩源",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "胡海泉",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 8,
+                                "total_groups": 7
+                    },
+                    "3": {
+                                "guests": [
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "刘潇",
+                                                        "count": 3
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "何首呈",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "曹经纶",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "宋瑞霖",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "李彧楚",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "仲宇飞",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 6
+                    },
+                    "4": {
+                                "guests": [
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "詹吟霄",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "张智源",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "范家钰",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "马皓月",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "张婳",
+                                                        "count": 4
+                                            }
+                                ],
+                                "total_people": 11,
+                                "total_groups": 5
+                    },
+                    "5": {
+                                "guests": [
+                                            {
+                                                        "source": "本科",
+                                                        "name": "张彦崧",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "王山",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "邢小龙",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "李昱函",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "刘孟嘉",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "梁宇平",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "王傧翰",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 7
+                    },
+                    "7": {
+                                "guests": [
+                                            {
+                                                        "source": "本科",
+                                                        "name": "尤清伦",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "孙益权",
+                                                        "count": 3
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "员乐",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "杨永顺",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "陈果通",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "赵峰",
+                                                        "count": 2
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 6
+                    },
+                    "8": {
+                                "guests": [
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "任恺月",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "黄兆南",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "吕洪志",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "张鑫",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "王琳",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "贾敏",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "余诗祺",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "张金迪",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "靴子",
+                                                        "name": "王子卉",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 9,
+                                "total_groups": 9
+                    },
+                    "9": {
+                                "guests": [
+                                            {
+                                                        "source": "高一",
+                                                        "name": "王凌飞",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "侯泽阳",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "张诗奇",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "韩帅",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "赵钰",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "马梓程",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高一",
+                                                        "name": "鲍金笛",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 7
+                    },
+                    "10": {
+                                "guests": [
+                                            {
+                                                        "source": "研究生",
+                                                        "name": "孔德朋",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "初中",
+                                                        "name": "李寒雨",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "初中",
+                                                        "name": "李功豪",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "初中",
+                                                        "name": "曹畅",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "初中",
+                                                        "name": "朱桐村",
+                                                        "count": 2
+                                            }
+                                ],
+                                "total_people": 8,
+                                "total_groups": 5
+                    }
+        };
+
+        // 生成宾客名单
+        function generateGuestList() {
+            const container = document.getElementById('guestList');
+            let html = '';
+
+            // 按桌号排序
+            const tableNumbers = Object.keys(tableData).map(Number).sort((a, b) => a - b);
+
+            // 统计数据
+            let totalGuests = 0;
+            let totalPeople = 0;
+
+            tableNumbers.forEach(tableNum => {
+                const data = tableData[tableNum];
+                const category = TABLE_CATEGORIES[tableNum] || '';
+
+                totalGuests += data.total_groups;
+                totalPeople += data.total_people;
+
+                html += `
+                    <div class="table-section">
+                        <div class="table-header">
+                            <span>第 ${tableNum} 桌</span>
+                            <span class="table-category">${category} · 共${data.total_people}人</span>
+                        </div>
+                        <div class="guest-grid">
+                `;
+
+                data.guests.forEach(guest => {
+                    html += `
+                        <div class="guest-card">
+                            <span class="guest-name">${guest.name}</span>
+                            <span class="guest-count">${guest.count}人</span>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            // 更新统计
+            document.getElementById('totalTables').textContent = tableNumbers.length;
+            document.getElementById('totalGuests').textContent = totalGuests;
+            document.getElementById('totalPeople').textContent = totalPeople;
+        }
+
+        // 初始化
+        generateGuestList();
+    </script>
+</body>
+</html>
