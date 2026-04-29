@@ -2,8 +2,9 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>婚礼宴席座次表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彭嘉恒 & 薛博文 婚礼</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -23,6 +24,51 @@
             margin: 0 auto;
         }
 
+        /* 标签页样式 */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 15px 35px;
+            font-size: 1.2em;
+            border: none;
+            background: white;
+            color: #be123c;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(190, 18, 60, 0.1);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(190, 18, 60, 0.2);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #be123c 0%, #9f1239 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         h1 {
             text-align: center;
             color: #be123c;
@@ -38,6 +84,237 @@
             margin-bottom: 30px;
         }
 
+        /* 行程安排放大样式 */
+        .schedule-card {
+            width: 700px !important;
+            transform: scale(1.1);
+        }
+
+        .schedule-title-main {
+            font-size: 28px !important;
+        }
+
+        .schedule-title-sub {
+            font-size: 18px !important;
+        }
+
+        .day-title {
+            font-size: 20px !important;
+        }
+
+        .day-detail {
+            font-size: 16px !important;
+        }
+
+        .schedule-footer-text {
+            font-size: 17px !important;
+        }
+
+        .schedule-couple-names {
+            font-size: 20px !important;
+        }
+
+        /* 旅游攻略页面 */
+        .travel-guide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .travel-guide-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .travel-guide-header h2 {
+            color: #be123c;
+            font-size: 2.2em;
+            margin-bottom: 15px;
+        }
+
+        .travel-guide-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .attraction-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(190, 18, 60, 0.1);
+            border-left: 4px solid #be123c;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(190, 18, 60, 0.2);
+        }
+
+        .attraction-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #be123c;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .attraction-desc {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1em;
+        }
+
+        .attraction-highlight {
+            color: #db2777;
+            font-weight: 600;
+        }
+
+        .xiaohongshu-section {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe4e6 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .xiaohongshu-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            object-fit: cover;
+        }
+
+        .xiaohongshu-text {
+            text-align: left;
+        }
+
+        .xiaohongshu-text h3 {
+            color: #be123c;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .xiaohongshu-text p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+
+        /* 搜索框样式 */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            font-size: 1em;
+            border: 2px solid #fda4af;
+            border-radius: 30px;
+            background: white;
+            color: #be123c;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(190, 18, 60, 0.1);
+        }
+
+        .search-input:focus {
+            border-color: #be123c;
+            box-shadow: 0 6px 20px rgba(190, 18, 60, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: #f43f5e;
+            opacity: 0.6;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #be123c;
+            font-size: 1.2em;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            margin-top: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #fecdd3;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-result-item:hover {
+            background: #fff1f2;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-name {
+            font-weight: bold;
+            color: #be123c;
+            font-size: 1.05em;
+        }
+
+        .search-result-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        .search-no-result {
+            padding: 30px;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        .highlight {
+            background: #fef08a;
+            padding: 0 2px;
+            border-radius: 3px;
+        }
+
+        /* 座次表样式 */
         .stage {
             background: linear-gradient(135deg, #be123c 0%, #9f1239 100%);
             color: white;
@@ -138,15 +415,54 @@
         }
 
         .table.empty {
-            border-color: #d1d5db;
-            background: linear-gradient(145deg, #f9fafb 0%, #f3f4f6 100%);
+            border-color: #fda4af;
+            background: linear-gradient(145deg, #fff1f2 0%, #ffe4e6 100%);
         }
 
         .table.empty .table-count {
-            background: #e5e7eb;
-            color: #6b7280;
+            background: #fecdd3;
+            color: #be123c;
         }
 
+        .legend {
+            margin-top: 50px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend h3 {
+            color: #be123c;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .legend-items {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.has-data {
+            border: 2px solid #be123c;
+            background: linear-gradient(145deg, #fff1f2 0%, #ffe4e6 100%);
+        }
+
+        /* 弹窗样式 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -289,47 +605,172 @@
             margin-bottom: 15px;
         }
 
-        .legend {
-            margin-top: 50px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .legend h3 {
-            color: #be123c;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .legend-items {
+        /* 行程卡片样式 */
+        .schedule-container {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
+            align-items: center;
+            min-height: 80vh;
         }
 
-        .legend-item {
+        .schedule-card {
+            width: 600px;
+            max-width: 100%;
+            background: linear-gradient(180deg, #fff5f5 0%, #ffffff 50%, #fffaf0 100%);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(199, 74, 74, 0.15),
+                        0 8px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            position: relative;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .schedule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #c94c4c, #e8a87c, #c94c4c);
+        }
+
+        .schedule-header {
+            text-align: center;
+            padding: 25px 30px 18px;
+            position: relative;
+        }
+
+        .schedule-hearts {
+            font-size: 28px;
+            color: #c94c4c;
+            margin-bottom: 10px;
+            letter-spacing: 8px;
+        }
+
+        .schedule-title-main {
+            font-size: 24px;
+            font-weight: 700;
+            color: #8b0000;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+        }
+
+        .schedule-title-sub {
+            font-size: 16px;
+            color: #a0522d;
+            letter-spacing: 2px;
+        }
+
+        .schedule-divider {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e8a87c, transparent);
+            margin: 0 auto;
+        }
+
+        .schedule-content {
+            padding: 15px 25px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 4px 15px rgba(199, 74, 74, 0.08);
+            border-left: 4px solid #c94c4c;
+            transition: transform 0.3s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .day-card.secondary {
+            border-left-color: #e8a87c;
+        }
+
+        .day-card-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            margin-bottom: 12px;
         }
 
-        .legend-dot {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+        .day-icon {
+            font-size: 24px;
+            margin-right: 12px;
         }
 
-        .legend-dot.has-data {
-            border: 2px solid #be123c;
-            background: linear-gradient(145deg, #fff1f2 0%, #ffe4e6 100%);
+        .day-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
         }
 
-        .legend-dot.empty {
-            border: 2px solid #d1d5db;
-            background: linear-gradient(145deg, #f9fafb 0%, #f3f4f6 100%);
+        .day-detail {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .day-detail:last-child {
+            margin-bottom: 0;
+        }
+
+        .day-detail-icon {
+            width: 24px;
+            margin-right: 8px;
+            color: #c94c4c;
+            flex-shrink: 0;
+        }
+
+        .day-detail-text {
+            flex: 1;
+        }
+
+        .day-highlight {
+            color: #8b0000;
+            font-weight: 600;
+        }
+
+        .day-detail-text strong {
+            color: #c94c4c;
+            font-weight: 700;
+        }
+
+        .schedule-footer {
+            text-align: center;
+            padding: 15px 30px 22px;
+            background: linear-gradient(180deg, transparent, rgba(201, 76, 76, 0.05));
+            grid-column: 1 / -1;
+        }
+
+        .schedule-footer-hearts {
+            font-size: 20px;
+            color: #e8a87c;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+        }
+
+        .schedule-footer-text {
+            font-size: 15px;
+            color: #a0522d;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+
+        .schedule-couple-names {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8b0000;
+            margin-top: 8px;
+            letter-spacing: 3px;
         }
 
         .footer {
@@ -339,331 +780,345 @@
             font-size: 0.9em;
         }
 
-        .search-box {
-            max-width: 300px;
-            margin: 0 auto 25px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #fda4af;
-            border-radius: 25px;
-            font-size: 1em;
-            outline: none;
-            background: white;
-            transition: border-color 0.3s;
-        }
-
-        .search-box input:focus {
-            border-color: #be123c;
-        }
-
-        .search-result {
-            background: #fff1f2;
-            border: 1px solid #fda4af;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .search-result.active {
-            display: block;
-        }
-
-        .search-result-item {
-            padding: 10px;
-            border-bottom: 1px solid #fecdd3;
-            cursor: pointer;
-        }
-
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
-        .search-result-item:hover {
-            background: #ffe4e6;
-        }
-
-        .highlight {
-            background: #fef08a;
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-
         @media (max-width: 768px) {
-            body {
-                padding: 15px 10px;
-            }
-
             .seating-area {
-                gap: 15px;
-            }
-
-            .column {
                 gap: 20px;
             }
 
             .table {
-                width: 85px;
-                height: 85px;
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            .table:active {
-                transform: scale(0.95);
+                width: 100px;
+                height: 100px;
             }
 
             .table-number {
-                font-size: 1.1em;
-            }
-
-            .table-source {
-                font-size: 0.7em;
-            }
-
-            .table-count {
-                font-size: 0.65em;
-                padding: 1px 6px;
+                font-size: 1.2em;
             }
 
             h1 {
-                font-size: 1.5em;
+                font-size: 1.8em;
             }
 
-            .subtitle {
-                font-size: 0.95em;
-                margin-bottom: 20px;
+            .schedule-content {
+                grid-template-columns: 1fr;
             }
 
-            .stage {
-                padding: 15px;
-                font-size: 1.1em;
-                margin-bottom: 25px;
+            .tabs {
+                gap: 8px;
             }
 
-            .stage-icon {
-                font-size: 1.2em;
-            }
-
-            .modal {
-                padding: 20px;
-                width: 95%;
-                max-height: 85vh;
-            }
-
-            .modal-title {
-                font-size: 1.2em;
-            }
-
-            .guest-item {
-                padding: 10px 12px;
-            }
-
-            .guest-name {
+            .tab-btn {
+                padding: 10px 20px;
                 font-size: 1em;
-            }
-
-            .guest-count {
-                padding: 4px 10px;
-                font-size: 0.85em;
-            }
-
-            .legend {
-                margin-top: 30px;
-                padding: 15px;
-            }
-
-            .legend-items {
-                gap: 25px;
-            }
-
-            .footer {
-                margin-top: 25px;
-                font-size: 0.85em;
-            }
-
-            .search-box input {
-                padding: 10px 15px;
-                font-size: 16px;
             }
         }
 
-        @media (max-width: 480px) {
-            .seating-area {
-                gap: 10px;
+        @media print {
+            .print-btn {
+                display: none;
             }
 
-            .table {
-                width: 75px;
-                height: 75px;
+            .tabs {
+                display: none;
             }
 
-            .table-number {
-                font-size: 1em;
-            }
-
-            .table-source {
-                font-size: 0.6em;
-            }
-
-            .table-count {
-                font-size: 0.55em;
-            }
-
-            h1 {
-                font-size: 1.3em;
+            .tab-content {
+                display: block !important;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>💒 婚礼宴席座次表</h1>
-        <p class="subtitle">Wedding Seating Plan</p>
+        <h1>💒 彭嘉恒 & 薛博文 婚礼</h1>
+        <p class="subtitle">Wedding Ceremony & Banquet</p>
 
-        <div class="stage">
-            <div class="stage-icon">💕</div>
-            <div>舞台 / STAGE</div>
+        <!-- 标签页导航 -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('schedule')">📅 行程安排</button>
+            <button class="tab-btn" onclick="switchTab('seating')">📋 婚礼座次</button>
+            <button class="tab-btn" onclick="switchTab('travel')">🚗 旅游攻略</button>
         </div>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 搜索宾客姓名查找座位..." oninput="searchGuest()">
-            <div class="search-result" id="searchResult"></div>
+        <!-- 行程安排页面 -->
+        <div id="schedule-tab" class="tab-content active">
+            <div class="schedule-container">
+                <div class="schedule-card">
+                    <div class="schedule-header">
+                        <div class="schedule-hearts">💕 💒 💕</div>
+                        <div class="schedule-title-main">婚礼淄博行程</div>
+                        <div class="schedule-title-sub">诚邀您见证我们的幸福时刻</div>
+                    </div>
+
+                    <div class="schedule-divider"></div>
+
+                    <div class="schedule-content">
+                        <div class="day-card secondary">
+                            <div class="day-card-header">
+                                <span class="day-icon">🏨</span>
+                                <span class="day-title">5月1日 · 入住酒店</span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">📍</span>
+                                <span class="day-detail-text"><strong>张店区蒂柏酒店</strong></span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">✨</span>
+                                <span class="day-detail-text">请各位亲友提前入住休息，期待明日相聚！</span>
+                            </div>
+                        </div>
+
+                        <div class="day-card">
+                            <div class="day-card-header">
+                                <span class="day-icon">💒</span>
+                                <span class="day-title">5月2日 · 婚宴正日</span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">🕚</span>
+                                <span class="day-detail-text"><span class="day-highlight">11:00</span> 婚宴开始</span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">📍</span>
+                                <span class="day-detail-text"><strong>张店区唐庄中润大道店 5F</strong></span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">🎉</span>
+                                <span class="day-detail-text">恭候各位光临，共襄喜宴！</span>
+                            </div>
+                        </div>
+
+                        <div class="day-card secondary">
+                            <div class="day-card-header">
+                                <span class="day-icon">🍖</span>
+                                <span class="day-title">5月2日 · 烧烤聚餐</span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">🕕</span>
+                                <span class="day-detail-text"><span class="day-highlight">18:00</span> 开始</span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">📍</span>
+                                <span class="day-detail-text"><strong>全羊福源烧烤</strong></span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">🥂</span>
+                                <span class="day-detail-text">婚宴结束后移步继续嗨！</span>
+                            </div>
+                        </div>
+
+                        <div class="day-card">
+                            <div class="day-card-header">
+                                <span class="day-icon">🙏</span>
+                                <span class="day-title">5月3日 · 答谢宴</span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">🕚</span>
+                                <span class="day-detail-text"><span class="day-highlight">11:00</span> 答谢宴开始</span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">📍</span>
+                                <span class="day-detail-text"><strong>张店区唐韵大酒店</strong></span>
+                            </div>
+                            <div class="day-detail">
+                                <span class="day-detail-icon">💐</span>
+                                <span class="day-detail-text">诚邀亲友，感谢一路相伴！</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-footer">
+                        <div class="schedule-footer-hearts">💞 💝 💞</div>
+                        <div class="schedule-footer-text">期待与您共度这美好时刻</div>
+                        <div class="schedule-couple-names">彭嘉恒 & 薛博文 敬邀</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="seating-area" id="seatingArea">
+        <!-- 座次表页面 -->
+        <div id="seating-tab" class="tab-content">
+            <div class="stage">
+                <div class="stage-icon">💕</div>
+                <div>舞台 / STAGE</div>
+            </div>
+
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchInput" placeholder="输入宾客姓名搜索桌号..." oninput="searchGuest(this.value)" onfocus="searchGuest(this.value)">
+                <div class="search-results" id="searchResults"></div>
+            </div>
+
+            <div class="seating-area" id="seatingArea">
             <div class="column">
-                <div class="table" data-table="1" onclick="showTableDetail(1)">
-                    <div class="table-number">1</div>
-                    <div class="table-source">男方亲友</div>
+                <div class="table" data-table="3" onclick="showTableDetail(3)">
+                    <div class="table-number">3</div>
+                    <div class="table-source">亲友</div>
                     <div class="table-count">10人</div>
                 </div>
-                <div class="table" data-table="2" onclick="showTableDetail(2)">
-                    <div class="table-number">2</div>
+                <div class="table" data-table="9" onclick="showTableDetail(9)">
+                    <div class="table-number">9</div>
                     <div class="table-source">新人同学</div>
                     <div class="table-count">8人</div>
                 </div>
-                <div class="table" data-table="3" onclick="showTableDetail(3)">
-                    <div class="table-number">3</div>
+                <div class="table" data-table="10" onclick="showTableDetail(10)">
+                    <div class="table-number">10</div>
                     <div class="table-source">新人同学</div>
                     <div class="table-count">10人</div>
                 </div>
-                <div class="table" data-table="4" onclick="showTableDetail(4)">
-                    <div class="table-number">4</div>
+                <div class="table" data-table="18" onclick="showTableDetail(18)">
+                    <div class="table-number">18</div>
                     <div class="table-source">新人同学</div>
                     <div class="table-count">11人</div>
                 </div>
-                <div class="table" data-table="5" onclick="showTableDetail(5)">
-                    <div class="table-number">5</div>
+                <div class="table" data-table="19" onclick="showTableDetail(19)">
+                    <div class="table-number">19</div>
                     <div class="table-source">新人同学</div>
                     <div class="table-count">10人</div>
                 </div>
             </div>
 
             <div class="column">
-                <div class="table" data-table="6" onclick="showTableDetail(6)">
-                    <div class="table-number">6</div>
-                    <div class="table-source">男方亲友</div>
-                    <div class="table-count">10人</div>
-                </div>
-                <div class="table" data-table="7" onclick="showTableDetail(7)">
-                    <div class="table-number">7</div>
-                    <div class="table-source">新人同学</div>
+                <div class="table" data-table="2" onclick="showTableDetail(2)">
+                    <div class="table-number">2</div>
+                    <div class="table-source">亲友</div>
                     <div class="table-count">10人</div>
                 </div>
                 <div class="table" data-table="8" onclick="showTableDetail(8)">
                     <div class="table-number">8</div>
                     <div class="table-source">新人同学</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="11" onclick="showTableDetail(11)">
+                    <div class="table-number">11</div>
+                    <div class="table-source">新人同学</div>
                     <div class="table-count">9人</div>
                 </div>
-                <div class="table" data-table="9" onclick="showTableDetail(9)">
-                    <div class="table-number">9</div>
+                <div class="table" data-table="17" onclick="showTableDetail(17)">
+                    <div class="table-number">17</div>
                     <div class="table-source">新人同学</div>
                     <div class="table-count">10人</div>
                 </div>
-                <div class="table" data-table="10" onclick="showTableDetail(10)">
-                    <div class="table-number">10</div>
+                <div class="table" data-table="20" onclick="showTableDetail(20)">
+                    <div class="table-number">20</div>
                     <div class="table-source">新人同学</div>
                     <div class="table-count">8人</div>
                 </div>
             </div>
 
             <div class="column">
-                <div class="table" data-table="11" onclick="showTableDetail(11)">
-                    <div class="table-number">11</div>
-                    <div class="table-source">峨庄亲友</div>
+                <div class="table" data-table="1" onclick="showTableDetail(1)">
+                    <div class="table-number">1</div>
+                    <div class="table-source">亲友</div>
+                    <div class="table-count">10人</div>
+                </div>
+                <div class="table" data-table="7" onclick="showTableDetail(7)">
+                    <div class="table-number">7</div>
+                    <div class="table-source">亲友</div>
                     <div class="table-count">10人</div>
                 </div>
                 <div class="table" data-table="12" onclick="showTableDetail(12)">
                     <div class="table-number">12</div>
-                    <div class="table-source">峨庄亲友</div>
+                    <div class="table-source">亲友</div>
                     <div class="table-count">10人</div>
                 </div>
-                <div class="table" data-table="13" onclick="showTableDetail(13)">
-                    <div class="table-number">13</div>
-                    <div class="table-source">临淄亲友</div>
+                <div class="table" data-table="16" onclick="showTableDetail(16)">
+                    <div class="table-number">16</div>
+                    <div class="table-source">朋友</div>
                     <div class="table-count">10人</div>
                 </div>
-                <div class="table" data-table="14" onclick="showTableDetail(14)">
-                    <div class="table-number">14</div>
-                    <div class="table-source">事务所</div>
-                    <div class="table-count">10人</div>
-                </div>
-                <div class="table" data-table="15" onclick="showTableDetail(15)">
-                    <div class="table-number">15</div>
-                    <div class="table-source">女方泳友</div>
+                <div class="table" data-table="21" onclick="showTableDetail(21)">
+                    <div class="table-number">21</div>
+                    <div class="table-source">工作人员</div>
                     <div class="table-count">10人</div>
                 </div>
             </div>
 
             <div class="column">
-                <div class="table" data-table="16" onclick="showTableDetail(16)">
-                    <div class="table-number">16</div>
-                    <div class="table-source">峨庄亲友</div>
+                <div class="table" data-table="5" onclick="showTableDetail(5)">
+                    <div class="table-number">5</div>
+                    <div class="table-source">亲友</div>
                     <div class="table-count">10人</div>
                 </div>
-                <div class="table" data-table="17" onclick="showTableDetail(17)">
-                    <div class="table-number">17</div>
-                    <div class="table-source">临淄亲友</div>
+                <div class="table" data-table="6" onclick="showTableDetail(6)">
+                    <div class="table-number">6</div>
+                    <div class="table-source">亲友</div>
                     <div class="table-count">10人</div>
                 </div>
-                <div class="table" data-table="18" onclick="showTableDetail(18)">
-                    <div class="table-number">18</div>
-                    <div class="table-source">临淄亲友</div>
+                <div class="table" data-table="13" onclick="showTableDetail(13)">
+                    <div class="table-number">13</div>
+                    <div class="table-source">亲友</div>
                     <div class="table-count">10人</div>
                 </div>
-                <div class="table" data-table="19" onclick="showTableDetail(19)">
-                    <div class="table-number">19</div>
-                    <div class="table-source">女方同学</div>
+                <div class="table" data-table="15" onclick="showTableDetail(15)">
+                    <div class="table-number">15</div>
+                    <div class="table-source">朋友</div>
                     <div class="table-count">10人</div>
                 </div>
-                <div class="table" data-table="20" onclick="showTableDetail(20)">
-                    <div class="table-number">20</div>
+                <div class="table" data-table="22" onclick="showTableDetail(22)">
+                    <div class="table-number">22</div>
                     <div class="table-source">机动</div>
                     <div class="table-count">10人</div>
                 </div>
             </div>
 
         </div>
-
-        <div class="legend">
-            <h3>📋 图例说明</h3>
-            <div class="legend-items">
-                <div class="legend-item">
-                    <div class="legend-dot has-data"></div>
-                    <span>已安排宾客</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot empty"></div>
-                    <span>空桌 / 备用桌</span>
-                </div>
-            </div>
         </div>
 
-        <div class="footer">
-            <p>👆 点击任意桌号查看详细宾客名单</p>
+        <!-- 旅游攻略页面 -->
+        <div id="travel-tab" class="tab-content">
+            <div class="travel-guide-container">
+                <div class="travel-guide-header">
+                    <h2>🚗 淄博旅游攻略</h2>
+                    <p>精选打卡景点，带你玩转淄博</p>
+                </div>
+
+                <div class="attractions-grid">
+                    <div class="attraction-card">
+                        <div class="attraction-name">📚 海岱楼钟书阁</div>
+                        <div class="attraction-desc">
+                            中国<span class="attraction-highlight">最美书店之一</span>，古风楼阁与镜面书海的完美结合，随手一拍都是大片。
+                            <br><br>
+                            <span class="attraction-highlight">推荐时间</span>：傍晚夕阳下的楼阁，或是夜晚亮灯后景色尤为惊艳！
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="attraction-name">🥟 八大局便民市场</div>
+                        <div class="attraction-desc">
+                            淄博<span class="attraction-highlight">烟火气顶流</span>，号称"5A级菜市场"，充满各种现做小吃和文创小玩意。
+                            <br><br>
+                            <span class="attraction-highlight">必吃打卡</span>：紫米饼、炒锅饼、得益酸奶，都是不容错过的网红美食！
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="attraction-name">🏺 中国陶瓷琉璃馆</div>
+                        <div class="attraction-desc">
+                            <span class="attraction-highlight">免费</span>的国家一级博物馆，能让你亲眼看到课本里的文物。
+                            <br><br>
+                            <span class="attraction-highlight">镇馆之宝</span>：青釉莲花尊，绝对震撼！还能体验亲手做陶瓷的乐趣哦～
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <div class="attraction-name">🌅 齐盛湖公园</div>
+                        <div class="attraction-desc">
+                            <span class="attraction-highlight">免费</span>城市公园，环境超治愈。这是本地人钟爱的休闲方式。
+                            <br><br>
+                            <span class="attraction-highlight">推荐体验</span>：傍晚散步看日落，或是遥望对岸海岱楼的绝美夜景。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="xiaohongshu-section">
+                    <img src="./旅游景点.jpg" alt="小红书攻略" class="xiaohongshu-img">
+                    <div class="xiaohongshu-text">
+                        <h3>📱 小红书更多攻略</h3>
+                        <p>想了解更多淄博好玩好吃的？<br>
+                        打开小红书搜索「淄博旅游攻略」，<br>
+                        发现更多本地人私藏的打卡地和美食！</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -679,9 +1134,57 @@
     </div>
 
     <script>
+        // 标签页切换
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
         // Excel数据
         const tableData =         {
-                    "2": {
+                    "8": {
+                                "guests": [
+                                            {
+                                                        "source": "本科",
+                                                        "name": "尤清伦",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "孙益权",
+                                                        "count": 3
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "员乐",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "杨永顺",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "陈果通",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "本科",
+                                                        "name": "赵峰",
+                                                        "count": 2
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 6
+                    },
+                    "9": {
                                 "guests": [
                                             {
                                                         "source": "实验室",
@@ -722,7 +1225,7 @@
                                 "total_people": 8,
                                 "total_groups": 7
                     },
-                    "3": {
+                    "10": {
                                 "guests": [
                                             {
                                                         "source": "实验室",
@@ -758,115 +1261,7 @@
                                 "total_people": 10,
                                 "total_groups": 6
                     },
-                    "4": {
-                                "guests": [
-                                            {
-                                                        "source": "实验室",
-                                                        "name": "詹吟霄",
-                                                        "count": 2
-                                            },
-                                            {
-                                                        "source": "实验室",
-                                                        "name": "张智源",
-                                                        "count": 2
-                                            },
-                                            {
-                                                        "source": "实验室",
-                                                        "name": "范家钰",
-                                                        "count": 2
-                                            },
-                                            {
-                                                        "source": "实验室",
-                                                        "name": "马皓月",
-                                                        "count": 1
-                                            },
-                                            {
-                                                        "source": "实验室",
-                                                        "name": "张婳",
-                                                        "count": 4
-                                            }
-                                ],
-                                "total_people": 11,
-                                "total_groups": 5
-                    },
-                    "5": {
-                                "guests": [
-                                            {
-                                                        "source": "本科",
-                                                        "name": "张彦崧",
-                                                        "count": 1
-                                            },
-                                            {
-                                                        "source": "高二",
-                                                        "name": "王山",
-                                                        "count": 2
-                                            },
-                                            {
-                                                        "source": "高二",
-                                                        "name": "邢小龙",
-                                                        "count": 2
-                                            },
-                                            {
-                                                        "source": "高二",
-                                                        "name": "李昱函",
-                                                        "count": 1
-                                            },
-                                            {
-                                                        "source": "高二",
-                                                        "name": "刘孟嘉",
-                                                        "count": 2
-                                            },
-                                            {
-                                                        "source": "高二",
-                                                        "name": "梁宇平",
-                                                        "count": 1
-                                            },
-                                            {
-                                                        "source": "高二",
-                                                        "name": "王傧翰",
-                                                        "count": 1
-                                            }
-                                ],
-                                "total_people": 10,
-                                "total_groups": 7
-                    },
-                    "7": {
-                                "guests": [
-                                            {
-                                                        "source": "本科",
-                                                        "name": "尤清伦",
-                                                        "count": 1
-                                            },
-                                            {
-                                                        "source": "本科",
-                                                        "name": "孙益权",
-                                                        "count": 3
-                                            },
-                                            {
-                                                        "source": "本科",
-                                                        "name": "员乐",
-                                                        "count": 1
-                                            },
-                                            {
-                                                        "source": "本科",
-                                                        "name": "杨永顺",
-                                                        "count": 1
-                                            },
-                                            {
-                                                        "source": "本科",
-                                                        "name": "陈果通",
-                                                        "count": 2
-                                            },
-                                            {
-                                                        "source": "本科",
-                                                        "name": "赵峰",
-                                                        "count": 2
-                                            }
-                                ],
-                                "total_people": 10,
-                                "total_groups": 6
-                    },
-                    "8": {
+                    "11": {
                                 "guests": [
                                             {
                                                         "source": "靴子",
@@ -900,6 +1295,11 @@
                                             },
                                             {
                                                         "source": "靴子",
+                                                        "name": "于璞",
+                                                        "count": 0
+                                            },
+                                            {
+                                                        "source": "靴子",
                                                         "name": "余诗祺",
                                                         "count": 1
                                             },
@@ -915,9 +1315,9 @@
                                             }
                                 ],
                                 "total_people": 9,
-                                "total_groups": 9
+                                "total_groups": 10
                     },
-                    "9": {
+                    "17": {
                                 "guests": [
                                             {
                                                         "source": "高一",
@@ -958,7 +1358,79 @@
                                 "total_people": 10,
                                 "total_groups": 7
                     },
-                    "10": {
+                    "18": {
+                                "guests": [
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "詹吟霄",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "张智源",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "范家钰",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "马皓月",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "实验室",
+                                                        "name": "张婳",
+                                                        "count": 4
+                                            }
+                                ],
+                                "total_people": 11,
+                                "total_groups": 5
+                    },
+                    "19": {
+                                "guests": [
+                                            {
+                                                        "source": "本科",
+                                                        "name": "张彦崧",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "王山",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "邢小龙",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "李昱函",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "刘孟嘉",
+                                                        "count": 2
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "梁宇平",
+                                                        "count": 1
+                                            },
+                                            {
+                                                        "source": "高二",
+                                                        "name": "王傧翰",
+                                                        "count": 1
+                                            }
+                                ],
+                                "total_people": 10,
+                                "total_groups": 7
+                    },
+                    "20": {
                                 "guests": [
                                             {
                                                         "source": "研究生",
@@ -991,11 +1463,76 @@
                     }
         };
 
+        function searchGuest(keyword) {
+            const searchResults = document.getElementById('searchResults');
+            keyword = keyword.trim().toLowerCase();
+
+            if (!keyword) {
+                searchResults.classList.remove('active');
+                return;
+            }
+
+            const results = [];
+
+            for (const [tableNum, data] of Object.entries(tableData)) {
+                for (const guest of data.guests) {
+                    if (guest.name.toLowerCase().includes(keyword)) {
+                        results.push({
+                            tableNum,
+                            name: guest.name,
+                            source: guest.source,
+                            count: guest.count,
+                            totalPeople: data.total_people
+                        });
+                    }
+                }
+            }
+
+            if (results.length > 0) {
+                searchResults.innerHTML = results.map(result => {
+                    const highlightedName = result.name.replace(
+                        new RegExp(keyword, 'gi'),
+                        match => `<span class="highlight">${match}</span>`
+                    );
+                    return `
+                        <div class="search-result-item" onclick="showTableDetail(${result.tableNum}); document.getElementById('searchResults').classList.remove('active'); document.getElementById('searchInput').value = '';">
+                            <div class="search-result-name">${highlightedName}</div>
+                            <div class="search-result-info">
+                                <span>第 ${result.tableNum} 桌 · ${result.source}</span>
+                                <span>共 ${result.count} 人</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                searchResults.innerHTML = `
+                    <div class="search-no-result">
+                        🔍 未找到匹配的宾客
+                    </div>
+                `;
+            }
+
+            searchResults.classList.add('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const searchContainer = document.querySelector('.search-container');
+            const searchResults = document.getElementById('searchResults');
+            if (!searchContainer.contains(e.target)) {
+                searchResults.classList.remove('active');
+            }
+        });
+
         function initTables() {
             document.querySelectorAll('.table').forEach(table => {
                 const tableNum = parseInt(table.dataset.table);
                 if (tableData[tableNum]) {
                     table.classList.add('has-data');
+                    const sources = [...new Set(tableData[tableNum].guests.map(g => g.source))].join(' / ');
+                    const sourceElement = table.querySelector('.table-source');
+                    if (sourceElement) {
+                        sourceElement.textContent = sources;
+                    }
                 } else {
                     table.classList.add('empty');
                 }
@@ -1058,44 +1595,6 @@
                 closeModal();
             }
         });
-
-        function searchGuest() {
-            const input = document.getElementById('searchInput').value.trim();
-            const resultDiv = document.getElementById('searchResult');
-
-            if (input.length === 0) {
-                resultDiv.classList.remove('active');
-                return;
-            }
-
-            const results = [];
-
-            for (const tableNum in tableData) {
-                const table = tableData[tableNum];
-                table.guests.forEach(guest => {
-                    if (guest.name.includes(input)) {
-                        results.push({
-                            tableNum,
-                            name: guest.name,
-                            source: guest.source,
-                            count: guest.count
-                        });
-                    }
-                });
-            }
-
-            if (results.length > 0) {
-                resultDiv.innerHTML = results.map(r => `
-                    <div class="search-result-item" onclick="showTableDetail(${r.tableNum})">
-                        <strong>${r.name}</strong> - 第 ${r.tableNum} 桌 (${r.source})
-                    </div>
-                `).join('');
-                resultDiv.classList.add('active');
-            } else {
-                resultDiv.innerHTML = '<div style="text-align: center; color: #9ca3af;">未找到匹配的宾客</div>';
-                resultDiv.classList.add('active');
-            }
-        }
 
         initTables();
     </script>
